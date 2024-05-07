@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css" integrity="sha512-UuQ/zJlbMVAw/UU8vVBhnI4op+/tFOpQZVT+FormmIEhRSCnJWyHiBbEVgM4Uztsht41f3FzVWgLuwzUqOObKw==" crossorigin="anonymous" referrerpolicy="no-referrer">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/solid.min.css" integrity="sha512-Hp+WwK4QdKZk9/W0ViDvLunYjFrGJmNDt6sCflZNkjgvNq9mY+0tMbd6tWMiAlcf1OQyqL4gn2rYp7UsfssZPA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-		<!--<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">-->
+		<link rel="shortcut icon" type="image/x-icon" href="https://rune.school/favicon.ico">
 
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
@@ -23,17 +23,17 @@
 		<input type="text" id="searchfield" autocomplete="off" value="">
 		<button onclick="doSearch()" id="searchbutton"><i class="fa-solid fa-magnifying-glass"></i></button>
 		<div id="info">Use asterisk (*) as wildcard character.</div>
-		<input type="checkbox" id="search_neo" checked><label for="search_neo">Search Neo</label>
-		<input type="checkbox" id="search_en" checked><label for="search_en">Search English</label>
+		<input type="checkbox" id="search_latin" checked><label for="search_latin">Search Latin English</label>
+		<input type="checkbox" id="search_runes" checked><label for="search_runes">Search Runic English</label>
 
 		<div id="noresults">No results</div>
 
 		<table class="results_table" id="results_neo">
-			<tr><th colspan="2">Neo &ShortRightArrow; English</th></tr>
+			<tr><th colspan="2">Latin &ShortRightArrow; Runes</th></tr>
 			<tr><td></td><td></td></tr>
 		</table>
 		<table class="results_table" id="results_en">
-			<tr><th colspan="2">English &ShortRightArrow; Neo</th></tr>
+			<tr><th colspan="2">Runic &ShortRightArrow; Latin</th></tr>
 			<tr><td></td><td></td></tr>
 		</table>
 	</body>

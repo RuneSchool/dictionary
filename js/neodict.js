@@ -24,11 +24,11 @@ $(document).ready(function() {
 	});
 });
 
-function searchNeo(entry) {
+function searchLatin(entry) {
 	return re.test(entry[0].toLowerCase());
 }
 
-function searchEnglish(entry) {
+function searchRunes(entry) {
 	return re.test(entry[1].toLowerCase());
 }
 
@@ -43,10 +43,10 @@ function doSearch() {
 		re = new RegExp("\\b" + query + "\\b");
 
 		var results = [[], []]
-		if($("#search_neo").is(":checked"))
-			results[0] = dictionary.filter(searchNeo);
-		if($("#search_en").is(":checked"))
-			results[1] = dictionary.filter(searchEnglish);
+		if($("#search_latin").is(":checked"))
+			results[0] = dictionary.filter(searchLatin);
+		if($("#search_runes").is(":checked"))
+			results[1] = dictionary.filter(searchRunes);
 
 		if(results[0].length > 0 || results[1].length > 0) {
 			$("#noresults").hide();

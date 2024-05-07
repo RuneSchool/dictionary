@@ -28,9 +28,9 @@ body {
 }
 
 .results_table tr:nth-child(1) {
-	background: #a90707;
+	background: #0644D9;
 	color: white;
-	border: 1px solid #a90707;
+	border: 1px solid #0644D9;
 }
 
 .results_table td {
@@ -52,10 +52,10 @@ body {
 }
 
 #searchbutton {
-	background: #a90707;
+	background: #0644D9;
 	font-size: 20px;
 	padding: 5px 8px;
-	border: 1px solid #a90707;
+	border: 1px solid #0644D9;
 	border-radius: 10px;
 	cursor: pointer;
 	color: white;
@@ -63,7 +63,7 @@ body {
 
 #searchbutton:hover {
 	background: white;
-	color: #a90707;
+	color: #0598CD;
 }
 
 #info {
