@@ -34,7 +34,7 @@ body {
 	background: #eee;
 }
 
-.results_table tr:nth-child(1) {
+.results_table th {
 	background: #0644D9;
 	color: white;
 	border: 1px solid #0644D9;
