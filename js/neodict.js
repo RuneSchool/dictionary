@@ -29,8 +29,7 @@ function searchLatin(entry) {
 }
 
 function searchRunes(entry) {
-	patternString = new RegExp(entry[1], 'u');
-	return re.test(patternString);
+	return re.test(entry[1].toLowerCase());
 }
 
 function doSearch() {
@@ -41,7 +40,7 @@ function doSearch() {
 
 	if(query.length > 0) {
 		$(".results_table").hide();
-		re = new RegExp("\\b" + query + "\\b");
+		re = new RegExp("(?<!\\p{L})" + query + "(?!\\p{L})", "u");
 
 		var results = [[], []]
 		if($("#search_latin").is(":checked"))
