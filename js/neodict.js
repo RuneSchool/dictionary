@@ -29,10 +29,8 @@ function searchLatin(entry) {
 }
 
 function searchRunes(entry) {
-	console.log(entry);
-	console.log(entry[1]);
-	console.log(entry[1].toLowerCase());
-	return re.test(entry[1].toLowerCase());
+	patternString = new RegExp(entry[1], 'u');
+	return re.test(patternString);
 }
 
 function doSearch() {
