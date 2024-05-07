@@ -1,5 +1,11 @@
+@font-face {
+    font-family: Catrinity;
+    font-weight: normal;
+    src: url("Catrinity.otf") format("opentype");
+}
+
 body {
-	font-family: sans-serif;
+	font-family: Catrinity, sans-serif;
 	text-align: center;
 	background: white;
 	color: black;
