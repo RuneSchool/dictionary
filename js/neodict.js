@@ -14,9 +14,9 @@ $(document).ready(function() {
 		$("#searchfield").focus();
 	});
 
-	Papa.parse('data/neodict.csv', {
+	Papa.parse('data/kingsleyreadlexicon.tsv', {
 		download: true,
-		delimiter: '|',
+		delimiter: '\t',
 		skipEmptyLines: true,
 		complete: function(results) {
 			dictionary = results.data;
