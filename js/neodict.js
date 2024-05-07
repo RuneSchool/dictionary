@@ -14,7 +14,7 @@ $(document).ready(function() {
 		$("#searchfield").focus();
 	});
 
-	Papa.parse('data/kingsleyreadlexicon.tsv', {
+	Papa.parse('data/runelex.tsv', {
 		download: true,
 		delimiter: '\t',
 		skipEmptyLines: true,

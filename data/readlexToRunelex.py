@@ -1,84 +1,145 @@
 import csv
 
-# Mapping without shortcut runes and no bindrunes, but with double feoh
-ipa_to_runes_simple = {
-    'iː': 'ᛁᛡ',
-    'ɪə': 'ᛁᛁ',
-    'ɪəR': 'ᛁᛁᚱ',
-    'i': 'ᛄ',
-    'ɪ': 'ᛁ',
-    'e': 'ᛖ',
-    'eɪ': 'ᛖᛡ',
-    'eəR': 'ᛖᛖᚱ',
-    'ɔːR': 'ᚩᚩᚱ',
-    'ɒ': 'ᚩ',
-    'ɔː': 'ᚩᚩ',
-    'ɔɪ': 'ᚩᛡ',
-    'əʊ': 'ᚩᚹ',
-    'ʊ': 'ᚣ',
-    'uː': 'ᚣᚹ',
-    'ʊəR': 'ᚣᚣᚱ',
-    'æ': 'ᚫ',
-    'ɑː': 'ᚫᚫ',
-    'Ɑ': 'ᚫᚫ',
-    'ɑːR': 'ᚫᚫᚱ',
-    'ⱭR': 'ᚫᚫᚱ',
-    'aɪ': 'ᚫᛡ',
-    'aʊ': 'ᚫᚹ',
-    'ʌ': 'ᚢ',
-    'ɜːR': 'ᚢᚢᚱ',
-    'ə': 'ᛟ',
-    'əR': 'ᛟᚱ',
-    'θ': 'ᚦ',
-    'ð': 'ᚦ',
-    'Ð': 'ᚦ',
-    'r': 'ᚱ',
-    'tʃ': 'ᚳ',
-    'ʃ': 'ᛋᚳ',
-}
+# Mapping without shortcut runes and no bindrunes
+ipa_to_runes_simple = [
+    ('eɪ', 'ᛖᛡ'),
+    ('aɪ', 'ᚫᛡ'),
+    ('ɔɪ', 'ᚩᛡ'),
+    ('ɪəR', 'ᛁᛁᚱ'),
+    ('iː', 'ᛁᛡ'),
+    ('ɪə', 'ᛁᛁ'),
+    ('eəR', 'ᛖᛖᚱ'),
+    ('eər', 'ᛖᛖᚱ'),
+    ('ɔːR', 'ᚩᚩᚱ'),
+    ('ɔːr', 'ᚩᚩᚱ'),
+    ('ɑːR', 'ᚫᚫᚱ'),
+    ('ɑːr', 'ᚫᚫᚱ'),
+    ('ⱭR', 'ᚫᚫᚱ'),
+    ('Ɑr', 'ᚫᚫᚱ'),
+    ('ʊəR', 'ᚣᚣᚱ'),
+    ('ʊər', 'ᚣᚣᚱ'),
+    ('ɜːR', 'ᚢᚢᚱ'),
+    ('ɜːr', 'ᚢᚢᚱ'),
+    ('əR', 'ᛟᚱ'),
+    ('əʊ', 'ᚩᚹ'),
+    ('aʊ', 'ᚫᚹ'),
+    ('uː', 'ᚣᚹ'),
+    ('i', 'ᛄ'),
+    ('ɪ', 'ᛁ'),
+    ('e', 'ᛖ'),
+    ('ɒ', 'ᚩ'),
+    ('ɔː', 'ᚩᚩ'),
+    ('ʊ', 'ᚣ'),
+    ('æ', 'ᚫ'),
+    ('Æ', 'ᚫ'),
+    ('ɑː', 'ᚫᚫ'),
+    ('Ɑ', 'ᚫᚫ'),
+    ('ʌ', 'ᚢ'),
+    ('ə', 'ᛟ'),
+    ('Ə', 'ᛟ'),
+    ('tʃ', 'ᚳ'),
+    ('dʒ', 'ᚷ'),
+    ('θ', 'ᚦ'),
+    ('ð', 'ᚦ'),
+    ('Ð', 'ᚦ'),
+    ('r', 'ᚱ'),
+    ('ʃ', 'ᛋᚳ'),
+    ('p', 'ᛈ'),
+    ('b', 'ᛒ'),
+    ('t', 'ᛏ'),
+    ('d', 'ᛞ'),
+    ('k', 'ᛣ'),
+    ('ɡ', 'ᚸ'),
+    ('g', 'ᚸ'),
+    ('f', 'ᚠ'),
+    ('v', 'ᚠ'),
+    ('s', 'ᛋ'),
+    ('z', 'ᛉ'),
+    ('ʒ', 'ᛉᚳ'),
+    ('j', 'ᛡ'),
+    ('w', 'ᚹ'),
+    ('ŋ', 'ᛝ'),
+    ('h', 'ᚻ'),
+    ('l', 'ᛚ'),
+    ('m', 'ᛗ'),
+    ('n', 'ᚾ'),
+    ('ː', ''),
+    ('ˈ', ''),
+    ('ˌ', ''),
+]
 
-# Mapping with all runes and bindrunes
-ipa_to_runes_standard = {
-    'iː': 'ᛇ',
-    'ɪəR': 'ᛠᚱ',
-    'ɪə': 'ᛠ',
-    'i': 'ᛄ',
-    'ɪ': 'ᛁ',
-    'e': 'ᛖ',
-    'eɪ': 'ᛖ‍ᛡ',
-    'eəR': 'ᛖ‍ᚱ',
-    'ɔːR': 'ᚩ‍ᚱ',
-    'ɒ': 'ᚩ',
-    'ɔː': 'ᚩ‍ᚩ',
-    'ɔɪ': 'ᚩ‍ᛡ',
-    'əʊ': 'ᚩ‍ᚹ',
-    'ʊ': 'ᚣ',
-    'uː': 'ᚣ‍ᚹ',
-    'ʊəR': 'ᚣ‍ᚱ',
-    'æ': 'ᚫ',
-    'ɑː': 'ᚪ',
-    'Ɑ': 'ᚪ',
-    'ɑːR': 'ᚪ‍ᚱ',
-    'ⱭR': 'ᚪ‍ᚱ',
-    'aɪ': 'ᚫ‍ᛡ',
-    'aʊ': 'ᚫ‍ᚹ',
-    'ʌ': 'ᚢ',
-    'ɜːR': 'ᚢ‍ᚱ',
-    'ə': 'ᛟ',
-    'əR': 'ᛟ‍ᚱ',
-    'θ': 'ᚦ',
-    'ð': 'ᚦ',
-    'Ð': 'ᚦ',
-    'r': 'ᚱ',
-    'tʃ': 'ᚳ',
-    'ʃ': 'ᛋᚳ',
-}
+ipa_to_runes_standard = [
+    ('eɪ', 'ᛖ‍ᛡ'),
+    ('aɪ', 'ᚫ‍ᛡ'),
+    ('ɔɪ', 'ᚩ‍ᛡ'),
+    ('ɪəR', 'ᛠᚱ'),
+    ('iː', 'ᛇ'),
+    ('ɪə', 'ᛠ'),
+    ('eəR', 'ᛖ‍ᚱ'),
+    ('eər', 'ᛖ‍ᚱ'),
+    ('ɔːR', 'ᚩ‍ᚱ'),
+    ('ɔːr', 'ᚩ‍ᚱ'),
+    ('ɑːR', 'ᚪ‍ᚱ'),
+    ('ɑːr', 'ᚪ‍ᚱ'),
+    ('ⱭR', 'ᚪ‍ᚱ'),
+    ('Ɑr', 'ᚪ‍ᚱ'),
+    ('ʊəR', 'ᚣ‍ᚱ'),
+    ('ʊər', 'ᚣ‍ᚱ'),
+    ('ɜːR', 'ᚢ‍ᚱ'),
+    ('ɜːr', 'ᚢ‍ᚱ'),
+    ('əR', 'ᛟ‍ᚱ'),
+    ('əʊ', 'ᚩ‍ᚹ'),
+    ('aʊ', 'ᚫ‍ᚹ'),
+    ('uː', 'ᚣ‍ᚹ'),
+    ('i', 'ᛄ'),
+    ('ɪ', 'ᛁ'),
+    ('e', 'ᛖ'),
+    ('ɒ', 'ᚩ'),
+    ('ɔː', 'ᚩ‍ᚩ'),
+    ('ʊ', 'ᚣ'),
+    ('æ', 'ᚫ'),
+    ('Æ', 'ᚫ'),
+    ('ɑː', 'ᚪ'),
+    ('Ɑ', 'ᚪ'),
+    ('ʌ', 'ᚢ'),
+    ('ə', 'ᛟ'),
+    ('Ə', 'ᛟ'),
+    ('dʒ', 'ᚷ'),
+    ('tʃ', 'ᚳ'),
+    ('θ', 'ᚦ'),
+    ('ð', 'ᚦ'),
+    ('Ð', 'ᚦ'),
+    ('r', 'ᚱ'),
+    ('ʃ', 'ᛋ‍ᚳ'),
+    ('p', 'ᛈ'),
+    ('b', 'ᛒ'),
+    ('t', 'ᛏ'),
+    ('d', 'ᛞ'),
+    ('k', 'ᛣ'),
+    ('ɡ', 'ᚸ'),
+    ('g', 'ᚸ'),
+    ('f', 'ᚠ'),
+    ('v', 'ᚠ‍ᚠ'),
+    ('s', 'ᛋ'),
+    ('z', 'ᛉ'),
+    ('ʒ', 'ᛉ‍ᚳ'),
+    ('j', 'ᛡ'),
+    ('w', 'ᚹ'),
+    ('ŋ', 'ᛝ'),
+    ('h', 'ᚻ'),
+    ('l', 'ᛚ'),
+    ('m', 'ᛗ'),
+    ('n', 'ᚾ'),
+    ('ː', ''),
+    ('ˈ', ''),
+    ('ˌ', ''),
+]
 
 def replace_with_runes(ipa_text, ipa_to_runes: dict):
     """ Replace IPA symbols in the text with corresponding runes, checking groups and symbols """
     # Sort the keys by length in descending order to replace larger groups first
-    for key in sorted(ipa_to_runes, key=len, reverse=True):
-        ipa_text = ipa_text.replace(key, ipa_to_runes[key])
+    for key, rune in ipa_to_runes:
+        ipa_text = ipa_text.replace(key, rune)
     return ipa_text
 
 def process_tsv(input_file, output_file):
@@ -88,23 +149,24 @@ def process_tsv(input_file, output_file):
         writer = csv.writer(outfile, delimiter='\t')
 
         # Read and write the header with a new column
-        headers = next(reader)
-        headers.append('Runic_IPA')
-        writer.writerow(headers)
+        # headers = next(reader)
+        # headers.append('Runic_IPA')
+        # writer.writerow(headers)
 
         # Process each row
         for row in reader:
             if row:
                 ipa_text = row[3]  # Index 3 for the IPA column
-                rune_text_simple = replace_with_runes(ipa_text, ipa_to_runes_simple)
-                row.append(rune_text_simple)  # Append the new column with simple runes
+                #rune_text_simple = replace_with_runes(ipa_text, ipa_to_runes_simple)
+                #row.append(rune_text_simple)  # Append the new column with simple runes
                 rune_text_standard = replace_with_runes(ipa_text, ipa_to_runes_standard)
-                row.append(rune_text_standard)  # Append the new column with standard runes
+                #row.append(rune_text_standard)  # Append the new column with standard runes
+                row.insert(1, rune_text_standard)
                 writer.writerow(row)
 
 # Specify the path to your input and output files
-input_tsv_path = 'kingsleyreadlexicon.tsv'
-output_tsv_path = 'output.tsv'
+input_tsv_path = 'input.tsv'
+output_tsv_path = 'runelex.tsv'
 
 # Process the file
 process_tsv(input_tsv_path, output_tsv_path)
