@@ -187,7 +187,7 @@ def process_tsv(input_file, output_file):
                 writer.writerow(row)
 
 # Specify the path to your input and output files
-input_tsv_path = 'readlex.tsv'
+input_tsv_path = 'kingsleyreadlexicon.tsv' # found at https://github.com/Shavian-info/readlex/blob/main/kingsleyreadlexicon.tsv
 output_tsv_path = 'runelex.tsv'
 
 # Process the file
