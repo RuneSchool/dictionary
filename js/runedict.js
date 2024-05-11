@@ -66,7 +66,7 @@ function doSearch() {
 					});
 					entries.forEach(function(e) {
 						e.forEach(function(r) {
-							$(tables[i]).append("<tr><td>" + r[i] + "</td><td>" + r[1-i] + "</td><td>" + r[3] + "</td></tr>");
+							$(tables[i]).append("<tr><td>" + r[i] + "</td><td>" + r[1-i] + "</td><td>" + r[4] + "</td><td>" + r[3] + "</td></tr>");
 						});
 					});
 					$(tables[i]).show();
