@@ -94,7 +94,7 @@ function translateLatinToRunic(text, dictionary) {
 
 // Example usage:
 const dictionaryFile = 'data/runelex.tsv';
-const latinText = 'the cat sat on the mat. the dog ate the food.\nThen there was a big fight. Fiona said, "Hello!" I replied "Hi."';
+const latinText = 'the cat sat on the mat. the dog ate the food.\nThen there was a big fight. Fiona said to Tom, "Hello!" I replied "Hi."';
 loadDictionary(dictionaryFile, dictionary => {
     const runicText = translateLatinToRunic(latinText, dictionary);
     console.log(latinText);
