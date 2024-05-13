@@ -19,6 +19,10 @@ function loadDictionary(file, callback) {
                 if (!(latinWord in dictionary)) {
                     dictionary[latinWord] = [{ runic: runicSpelling, shavian: shavianSpelling, partOfSpeech: partOfSpeech }];
                 } else {
+                    // Check if dictionary[latinWord] is an array, if not, initialize it as an array
+                    if (!Array.isArray(dictionary[latinWord])) {
+                        dictionary[latinWord] = [dictionary[latinWord]];
+                    }
                     dictionary[latinWord].push({ runic: runicSpelling, shavian: shavianSpelling, partOfSpeech: partOfSpeech });
                 }
             });
