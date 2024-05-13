@@ -38,29 +38,16 @@ function translateLatinToRunic(text, dictionary) {
     const words = text.split(/\b/);
     words.forEach(word => {
         word = word.toLowerCase()
-        // Check if word is punctuation
-        /*const isPunctuation = /^[.,:;!?"']+$/.test(word);
-        if (isPunctuation) {
-            // Translate punctuation characters as desired
-            const punctuationTranslation = {
-                '.': '᛫​', // assume that periods are followed by spaces so there will be a ᛫​᛫​
-                ',': '᛬​', 
-                ';': '⁝​​', 
-                ':': '⁝​​', 
-                ',': '᛬​', 
-                '?': '?',
-                '!': '᛬​᛬​', // delete any following spaces like ᛬​᛬᛫​
-            };
-            const translatedPunctuation = word.split('').map(char => punctuationTranslation[char] || char).join('');
-            translatedText.push(translatedPunctuation);
-        } else*/ if (word in dictionary) {
+        if (word in dictionary) {
             const runicOptions = dictionary[word];
-            if (runicOptions.length === 1) {
-                if (runicOptions[0].partOfSpeech == "NP0") {
-                    translatedText.push("᛭​" + runicOptions[0].runic);
-                } else {
-                    translatedText.push(runicOptions[0].runic);
+            runicOptions.forEach(opt => {
+                if (opt.partOfSpeech == "NP0") {
+                    translatedText.push("᛭​" + opt.runic);
                 }
+            })
+            
+            if (runicOptions.length === 1) {
+                translatedText.push(runicOptions[0].runic);
             } else {
                 const uniqueOptions = new Set(runicOptions.map(option => option.runic));
                 if (uniqueOptions.size === 1) {
