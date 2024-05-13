@@ -16,6 +16,7 @@ $(document).ready(function() {
 
 	Papa.parse('data/runelex.tsv', {
 		download: true,
+		header: false,
 		delimiter: '\t',
 		skipEmptyLines: true,
 		complete: function(results) {

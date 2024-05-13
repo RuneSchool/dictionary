@@ -1,12 +1,15 @@
-// Function to load the dictionary from TSV file
+// Function to load the dictionary from TSV file using Papa.parse
 function loadDictionary(file, callback) {
     fetch(file)
         .then(response => response.text())
         .then(text => {
+            const parsedData = Papa.parse(text, {
+                delimiter: '\t',
+                header: false,
+                skipEmptyLines: true,
+            });
             const dictionary = {};
-            const rows = text.split('\n');
-            rows.forEach(row => {
-                const columns = row.split('\t');
+            parsedData.data.forEach(columns => {
                 const latinWord = columns[0];
                 const runicSpelling = columns[1];
                 const shavianSpelling = columns[2];
@@ -14,15 +17,16 @@ function loadDictionary(file, callback) {
                 const pronunciation = columns[4];
                 const frequency = columns[5];
                 if (!(latinWord in dictionary)) {
-                    dictionary[latinWord] = [{ runic: runicSpelling, shavian: shavianSpelling }];
+                    dictionary[latinWord] = [{ runic: runicSpelling, shavian: shavianSpelling, partOfSpeech: partOfSpeech }];
                 } else {
-                    dictionary[latinWord].push({ runic: runicSpelling, shavian: shavianSpelling });
+                    dictionary[latinWord].push({ runic: runicSpelling, shavian: shavianSpelling, partOfSpeech: partOfSpeech });
                 }
             });
             callback(dictionary);
         })
         .catch(error => console.error('Error loading dictionary:', error));
 }
+
 
 // Function to translate Latin text to Runic text
 function translateLatinToRunic(text, dictionary) {
