@@ -37,6 +37,7 @@ function translateLatinToRunic(text, dictionary) {
     const translatedText = [];
     const words = text.split(/\b/);
     words.forEach(word => {
+        word = word.toLowerCase()
         // Check if word is punctuation
         /*const isPunctuation = /^[.,:;!?"']+$/.test(word);
         if (isPunctuation) {
@@ -73,7 +74,7 @@ function translateLatinToRunic(text, dictionary) {
             translatedText.push(word); // If word not found in dictionary, keep it as is
         }
     });
-    return translatedText.join();
+    return translatedText.join("");
 }
 
 
