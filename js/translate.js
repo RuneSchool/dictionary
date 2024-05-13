@@ -73,13 +73,13 @@ function translateLatinToRunic(text, dictionary) {
             translatedText.push(word); // If word not found in dictionary, keep it as is
         }
     });
-    return translatedText.join(' ');
+    return translatedText.join();
 }
 
 
 // Example usage:
 const dictionaryFile = 'data/runelex.tsv';
-const latinText = 'the cat sat on the mat. the dog ate the food.\nThen there was a big fight. She said, "Hello!" I replied "Hi."';
+const latinText = 'the cat sat on the mat. the dog ate the food.\nThen there was a big fight. Fiona said, "Hello!" I replied "Hi."';
 loadDictionary(dictionaryFile, dictionary => {
     const runicText = translateLatinToRunic(latinText, dictionary);
     console.log(runicText);
