@@ -35,10 +35,10 @@ function loadDictionary(file, callback) {
 // Function to translate Latin text to Runic text
 function translateLatinToRunic(text, dictionary) {
     const translatedText = [];
-    const words = text.split(/\b|\b(?=[.,:;!?"'])/);
+    const words = text.split(" ");
     words.forEach(word => {
         // Check if word is punctuation
-        const isPunctuation = /^[.,:;!?"']+$/.test(word);
+        /*const isPunctuation = /^[.,:;!?"']+$/.test(word);
         if (isPunctuation) {
             // Translate punctuation characters as desired
             const punctuationTranslation = {
@@ -52,7 +52,7 @@ function translateLatinToRunic(text, dictionary) {
             };
             const translatedPunctuation = word.split('').map(char => punctuationTranslation[char] || char).join('');
             translatedText.push(translatedPunctuation);
-        } else if (word in dictionary) {
+        } else*/ if (word in dictionary) {
             const runicOptions = dictionary[word];
             if (runicOptions.length === 1) {
                 if (runicOptions[0].partOfSpeech == "NP0") {
@@ -73,7 +73,7 @@ function translateLatinToRunic(text, dictionary) {
             translatedText.push(word); // If word not found in dictionary, keep it as is
         }
     });
-    return translatedText.join('᛫​').replace("᛬​᛬᛫​", "᛬​᛬");
+    return translatedText.join(' ');
 }
 
 
