@@ -59,6 +59,7 @@ function translateLatinToRunic(text, dictionary) {
                         console.log(`POS is NP0, so I pushed ᛭${w.runic}`)
                     }
                 })
+                console.log([...runicOptions])
                 const uniqueOptions = new Set(runicOptions.map(option => option.runic));
                 console.log(`the array has been reduced to this set ${uniqueOptions}`)
                 if (uniqueOptions.size === 1) {
