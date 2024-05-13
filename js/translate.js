@@ -35,10 +35,10 @@ function loadDictionary(file, callback) {
 // Function to translate Latin text to Runic text
 function translateLatinToRunic(text, dictionary) {
     const translatedText = [];
-    const words = text.split(/\b|\b(?=[.,:;!?])/);
+    const words = text.split(/\b|\b(?=[.,:;!?"'])/);
     words.forEach(word => {
         // Check if word is punctuation
-        const isPunctuation = /^[.,:;!?]+$/.test(word);
+        const isPunctuation = /^[.,:;!?"']+$/.test(word);
         if (isPunctuation) {
             // Translate punctuation characters as desired
             const punctuationTranslation = {
@@ -79,7 +79,7 @@ function translateLatinToRunic(text, dictionary) {
 
 // Example usage:
 const dictionaryFile = 'data/runelex.tsv';
-const latinText = 'the cat sat on the mat. the dog ate the food.';
+const latinText = 'the cat sat on the mat. the dog ate the food.\nThen there was a big fight. She said, "Hello!" I replied "Hi."';
 loadDictionary(dictionaryFile, dictionary => {
     const runicText = translateLatinToRunic(latinText, dictionary);
     console.log(runicText);
