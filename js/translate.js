@@ -79,6 +79,7 @@ function translateLatinToRunic(text, dictionary) {
     const translatedTextWithPunct = translatedText.join("")
                                                     .replace("...", "᛫᛫᛫​")
                                                     .replace(". ", "᛫᛫​")
+                                                    .replace(".", "᛫᛫​")
                                                     .replace(", ", "᛬​")
                                                     .replace("!?", "?᛬​")
                                                     .replace("?!", "?᛬​")
@@ -86,6 +87,7 @@ function translateLatinToRunic(text, dictionary) {
                                                     .replace("; ", "⁝​")
                                                     .replace(": ", "⁝​")
                                                     .replace("! ", "᛬᛬​")
+                                                    .replace(" ", "᛫​")
     return translatedTextWithPunct
 }
 
@@ -95,5 +97,6 @@ const dictionaryFile = 'data/runelex.tsv';
 const latinText = 'the cat sat on the mat. the dog ate the food.\nThen there was a big fight. Fiona said, "Hello!" I replied "Hi."';
 loadDictionary(dictionaryFile, dictionary => {
     const runicText = translateLatinToRunic(latinText, dictionary);
+    console.log(latinText);
     console.log(runicText);
 });
