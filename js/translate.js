@@ -39,14 +39,20 @@ function translateLatinToRunic(text, dictionary) {
     words.forEach(word => {
         word = word.toLowerCase()
         if (word in dictionary) {
+            console.log(word + " is in dictionary")
             const runicOptions = dictionary[word];
+            console.log(`${runicOptions} are the runic options`)
             if (runicOptions.length === 1) {
+                console.log(`runicOptions are just 1`)
                 if (runicOptions[0].partOfSpeech == "NP0") {
                     translatedText.push("᛭​" + runicOptions[0].runic);
+                    console.log(`POS is NP0, so I pushed ᛭${runicOptions[0].runic}`)
                 } else {
                     translatedText.push(runicOptions[0].runic);
+                    console.log(`POS is not NP0, so I pushed ${runicOptions[0].runic}`)
                 }
             } else {
+                console.log(`runicOptions are longer than 1`)
                 runicOptions.forEach(w => {
                     if (w.partOfSpeech == "NP0") {
                         runicOptions[w.runic] = ("᛭​" + w.runic);
