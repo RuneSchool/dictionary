@@ -86,6 +86,7 @@ function translateLatinToRunic(text, dictionary) {
                                                     .replaceAll(": ", "⁝​")
                                                     .replaceAll("! ", "᛬᛬​")
                                                     .replaceAll(" ", "᛫​")
+                                                    .replaceAll("᛫​᛫​᛭​", "᛫​᛭​")
     return translatedTextWithPunct
 }
 
