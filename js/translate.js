@@ -62,8 +62,12 @@ function translateLatinToRunic(text, dictionary) {
                 }
             } else {
                 const uniqueOptions = new Set(runicOptions.map(option => option.runic));
-                const options = [...uniqueOptions].join(' or ');
-                translatedText.push(`(${options})`);
+                if (uniqueOptions.size === 1) {
+                    translatedText.push([...uniqueOptions][0]); // Push the single option directly without parentheses
+                } else {
+                    const options = [...uniqueOptions].join(' or ');
+                    translatedText.push(`(${options})`);
+                }
             }
         } else {
             translatedText.push(word); // If word not found in dictionary, keep it as is
@@ -75,7 +79,7 @@ function translateLatinToRunic(text, dictionary) {
 
 // Example usage:
 const dictionaryFile = 'data/runelex.tsv';
-const latinText = 'the cat sat on the mat';
+const latinText = 'the cat sat on the mat. the dog ate the food.';
 loadDictionary(dictionaryFile, dictionary => {
     const runicText = translateLatinToRunic(latinText, dictionary);
     console.log(runicText);
