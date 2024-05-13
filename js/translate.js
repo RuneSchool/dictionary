@@ -55,8 +55,8 @@ function translateLatinToRunic(text, dictionary) {
                 console.log(`runicOptions are longer than 1`)
                 runicOptions.forEach(w => {
                     if (w.partOfSpeech == "NP0") {
-                        runicOptions[w].runic = ("᛭​" + w.runic);
-                        console.log(`POS is NP0, so I changed it to ᛭${runicOptions[w].runic}`)
+                        w.runic = "᛭​" + w.runic;
+                        console.log(`POS is NP0, so I changed it to ᛭${w.runic}`)
                     }
                 })
                 console.log([...runicOptions])
