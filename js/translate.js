@@ -65,7 +65,7 @@ function translateLatinToRunic(text, dictionary) {
                 const uniqueOptions = new Set(runicOptions.map(option => option.runic));
                 if (uniqueOptions.size === 1) {
                     translatedText.push([...uniqueOptions][0]); // Push the single option directly without parentheses
-                } else if ([...uniqueOptions].has('ᛖ‍ᛡ')) {
+                } else if (uniqueOptions.has('ᛖ‍ᛡ')) {
                     translatedText.push("ᛟ");
                 } else {
                     const options = [...uniqueOptions].join('|');
