@@ -35,7 +35,7 @@ function loadDictionary(file, callback) {
 // Function to translate Latin text to Runic text
 function translateLatinToRunic(text, dictionary) {
     const translatedText = [];
-    const words = text.split(' ');
+    const words = text.split(/\b|\b(?=[.,:;!?])/);
     words.forEach(word => {
         // Check if word is punctuation
         const isPunctuation = /^[.,:;!?]+$/.test(word);
