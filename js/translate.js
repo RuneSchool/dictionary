@@ -61,7 +61,8 @@ function translateLatinToRunic(text, dictionary) {
                     translatedText.push(runicOptions[0].runic);
                 }
             } else {
-                const options = runicOptions.map(option => option.runic).join(' or ');
+                const uniqueOptions = new Set(runicOptions.map(option => option.runic));
+                const options = [...uniqueOptions].join(' or ');
                 translatedText.push(`(${options})`);
             }
         } else {
