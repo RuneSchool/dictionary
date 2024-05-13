@@ -40,12 +40,6 @@ function translateLatinToRunic(text, dictionary) {
         word = word.toLowerCase()
         if (word in dictionary) {
             const runicOptions = dictionary[word];
-            runicOptions.forEach(opt => {
-                if (opt.partOfSpeech == "NP0") {
-                    translatedText.push("᛭​" + opt.runic);
-                }
-            })
-            
             if (runicOptions.length === 1) {
                 if (runicOptions[0].partOfSpeech == "NP0") {
                     translatedText.push("᛭​" + runicOptions[0].runic);
@@ -53,6 +47,11 @@ function translateLatinToRunic(text, dictionary) {
                     translatedText.push(runicOptions[0].runic);
                 }
             } else {
+                runicOptions.forEach(w => {
+                    if (w.partOfSpeech == "NP0") {
+                        runicOptions[w.runic] = ("᛭​" + w.runic);
+                    }
+                })
                 const uniqueOptions = new Set(runicOptions.map(option => option.runic));
                 if (uniqueOptions.size === 1) {
                     translatedText.push([...uniqueOptions][0]); // Push the single option directly without parentheses
