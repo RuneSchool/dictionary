@@ -47,7 +47,11 @@ function translateLatinToRunic(text, dictionary) {
             })
             
             if (runicOptions.length === 1) {
-                translatedText.push(runicOptions[0].runic);
+                if (runicOptions[0].partOfSpeech == "NP0") {
+                    translatedText.push("᛭​" + runicOptions[0].runic);
+                } else {
+                    translatedText.push(runicOptions[0].runic);
+                }
             } else {
                 const uniqueOptions = new Set(runicOptions.map(option => option.runic));
                 if (uniqueOptions.size === 1) {
