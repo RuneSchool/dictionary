@@ -77,17 +77,17 @@ function translateLatinToRunic(text, dictionary) {
         }
     });
     const translatedTextWithPunct = translatedText.join("")
-                                                    .replace("...", "᛫᛫᛫​")
-                                                    .replace(". ", "᛫᛫​")
-                                                    .replace(".", "᛫᛫​")
-                                                    .replace(", ", "᛬​")
-                                                    .replace("!?", "?᛬​")
-                                                    .replace("?!", "?᛬​")
-                                                    .replace("? ", "?᛫​")
-                                                    .replace("; ", "⁝​")
-                                                    .replace(": ", "⁝​")
-                                                    .replace("! ", "᛬᛬​")
-                                                    .replace(" ", "᛫​")
+                                                    .replaceAll("...", "᛫᛫᛫​")
+                                                    .replaceAll(". ", "᛫᛫​")
+                                                    .replaceAll(".", "᛫᛫​")
+                                                    .replaceAll(", ", "᛬​")
+                                                    .replaceAll("!?", "?᛬​")
+                                                    .replaceAll("?!", "?᛬​")
+                                                    .replaceAll("? ", "?᛫​")
+                                                    .replaceAll("; ", "⁝​")
+                                                    .replaceAll(": ", "⁝​")
+                                                    .replaceAll("! ", "᛬᛬​")
+                                                    .replaceAll(" ", "᛫​")
     return translatedTextWithPunct
 }
 
