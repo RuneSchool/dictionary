@@ -1,3 +1,11 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const translateButton = document.getElementById('translateButton');
+    translateButton.addEventListener('click', function() {
+        console.log('Button clicked'); // Debugging statement
+        translate(); // Call the translate function
+    });
+})
+
 function translate() {
     const latinInput = document.getElementById('latinInput').value;
     const runicOutput = translateLatinToRunic(latinInput, dictionary);
@@ -58,7 +66,7 @@ function translateLatinToRunic(text, dictionary) {
                     //console.log(`POS is not NP0, so I pushed ${runicOptions[0].runic}`)
                 }
             } else {
-                console.log(`runicOptions are longer than 1`)
+                //console.log(`runicOptions are longer than 1`)
                 runicOptions.forEach(w => {
                     if (w.partOfSpeech == "NP0") {
                         w.runic = "᛭​" + w.runic;
