@@ -50,7 +50,7 @@ function loadDictionary(file, callback) {
 function translateLatinToRunic(text, dictionary) {
     const translatedText = [];
     text.replaceAll("’", "'");
-    const words = text.split(/\b/);
+    const words = text.split(/(?<!')\b(?!')/);
     words.forEach(word => {
         word = word.toLowerCase()
         if (word in dictionary) {
