@@ -1,5 +1,5 @@
 // Function to load the dictionary from TSV file using Papa.parse
-function loadDictionary(file, callback) {
+function loadDictionary(file) {
     fetch(file)
         .then(response => response.text())
         .then(text => {
@@ -26,7 +26,7 @@ function loadDictionary(file, callback) {
                     dictionary[latinWord].push({ runic: runicSpelling, shavian: shavianSpelling, partOfSpeech: partOfSpeech });
                 }
             });
-            callback(dictionary);
+            return dictionary
         })
         .catch(error => console.error('Error loading dictionary:', error));
 }
@@ -39,29 +39,29 @@ function translateLatinToRunic(text, dictionary) {
     words.forEach(word => {
         word = word.toLowerCase()
         if (word in dictionary) {
-            console.log(word + " is in dictionary")
+            //console.log(word + " is in dictionary")
             const runicOptions = dictionary[word];
-            console.log(`${[...runicOptions]} are the runic options`)
+            //console.log(`${[...runicOptions]} are the runic options`)
             if (runicOptions.length === 1) {
-                console.log(`runicOptions are just 1`)
+                //console.log(`runicOptions are just 1`)
                 if (runicOptions[0].partOfSpeech == "NP0") {
                     translatedText.push("᛭​" + runicOptions[0].runic);
-                    console.log(`POS is NP0, so I pushed ᛭${runicOptions[0].runic}`)
+                    //console.log(`POS is NP0, so I pushed ᛭${runicOptions[0].runic}`)
                 } else {
                     translatedText.push(runicOptions[0].runic);
-                    console.log(`POS is not NP0, so I pushed ${runicOptions[0].runic}`)
+                    //console.log(`POS is not NP0, so I pushed ${runicOptions[0].runic}`)
                 }
             } else {
                 console.log(`runicOptions are longer than 1`)
                 runicOptions.forEach(w => {
                     if (w.partOfSpeech == "NP0") {
                         w.runic = "᛭​" + w.runic;
-                        console.log(`POS is NP0, so I changed it to ᛭${w.runic}`)
+                        //console.log(`POS is NP0, so I changed it to ᛭${w.runic}`)
                     }
                 })
-                console.log([...runicOptions])
+                //console.log([...runicOptions])
                 const uniqueOptions = new Set(runicOptions.map(option => option.runic));
-                console.log(`the array has been reduced to this set ${uniqueOptions}`)
+                //console.log(`the array has been reduced to this set ${uniqueOptions}`)
                 if (uniqueOptions.size === 1) {
                     translatedText.push([...uniqueOptions][0]); // Push the single option directly without parentheses
                 } else if (uniqueOptions.has('ᛖ‍ᛡ')) {
@@ -90,12 +90,16 @@ function translateLatinToRunic(text, dictionary) {
     return translatedTextWithPunct
 }
 
+function translate() {
+    const latinInput = document.getElementById('latinInput').value;
+    const runicOutput = translateLatinToRunic(latinInput, dictionary);
+    document.getElementById('runicOutput').innerHTML = runicOutput;
+}
 
-// Example usage:
 const dictionaryFile = 'data/runelex.tsv';
-const latinText = 'the cat sat on the mat. the dog ate the food.\nThen there was a big fight. Fiona said to Tom, "Hello!" I replied "Hi."';
-loadDictionary(dictionaryFile, dictionary => {
-    const runicText = translateLatinToRunic(latinText, dictionary);
-    console.log(latinText);
-    console.log(runicText);
-});
+dictionary = loadDictionary(dictionaryFile);
+const testLatin = 'the cat sat on the mat. the dog ate the food.\nThen there was a big fight. Fiona said to Tom, "Hello!" I replied "Hi."';
+const testRunic = translateLatinToRunic(testLatin, dictionary);
+console.log(testLatin);
+console.log(testRunic);
+
