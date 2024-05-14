@@ -49,7 +49,7 @@ function loadDictionary(file, callback) {
 // Function to translate Latin text to Runic text
 function translateLatinToRunic(text, dictionary) {
     const translatedText = [];
-    text.replaceAll("’", "").replaceAll("'", "");
+    text.replaceAll("’", "'");
     const words = text.split(/\b/);
     words.forEach(word => {
         word = word.toLowerCase()
