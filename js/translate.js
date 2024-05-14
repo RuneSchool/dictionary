@@ -1,5 +1,5 @@
 // Function to load the dictionary from TSV file using Papa.parse
-function loadDictionary(file) {
+function loadDictionary(file, callback) {
     fetch(file)
         .then(response => response.text())
         .then(text => {
@@ -26,7 +26,7 @@ function loadDictionary(file) {
                     dictionary[latinWord].push({ runic: runicSpelling, shavian: shavianSpelling, partOfSpeech: partOfSpeech });
                 }
             });
-            return dictionary
+            callback(dictionary);
         })
         .catch(error => console.error('Error loading dictionary:', error));
 }
@@ -97,9 +97,16 @@ function translate() {
 }
 
 const dictionaryFile = 'data/runelex.tsv';
-dictionary = loadDictionary(dictionaryFile);
-const testLatin = 'the cat sat on the mat. the dog ate the food.\nThen there was a big fight. Fiona said to Tom, "Hello!" I replied "Hi."';
-const testRunic = translateLatinToRunic(testLatin, dictionary);
-console.log(testLatin);
-console.log(testRunic);
 
+// Load the dictionary and provide a callback function to handle the loaded dictionary
+loadDictionary(dictionaryFile, function (loadedDictionary) {
+    // Use the loaded dictionary
+    dictionary = loadedDictionary;
+
+    // Now the dictionary is loaded and available for translation
+    // You can perform any further actions here, such as initializing UI elements or starting translation tasks
+    const testLatin = 'the cat sat on the mat. the dog ate the food.\nThen there was a big fight. Fiona said to Tom, "Hello!" I replied "Hi."';
+    const testRunic = translateLatinToRunic(testLatin, dictionary);
+    console.log(testLatin);
+    console.log(testRunic);
+});
