@@ -1,3 +1,9 @@
+function translate() {
+    const latinInput = document.getElementById('latinInput').value;
+    const runicOutput = translateLatinToRunic(latinInput, dictionary);
+    document.getElementById('runicOutput').innerHTML = runicOutput;
+}
+
 // Function to load the dictionary from TSV file using Papa.parse
 function loadDictionary(file, callback) {
     fetch(file)
@@ -90,11 +96,6 @@ function translateLatinToRunic(text, dictionary) {
     return translatedTextWithPunct
 }
 
-function translate() {
-    const latinInput = document.getElementById('latinInput').value;
-    const runicOutput = translateLatinToRunic(latinInput, dictionary);
-    document.getElementById('runicOutput').innerHTML = runicOutput;
-}
 
 const dictionaryFile = 'data/runelex.tsv';
 
