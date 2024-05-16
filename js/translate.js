@@ -70,7 +70,9 @@ function translateLatinToRunic(text, dictionary) {
                 //console.log(`runicOptions are longer than 1`)
                 runicOptions.forEach(w => {
                     if (w.partOfSpeech == "NP0") {
-                        w.runic = "᛭​" + w.runic;
+                        if (!w.runic.startsWith("᛭​")) {
+                            w.runic = "᛭​" + w.runic;
+                        }
                         //console.log(`POS is NP0, so I changed it to ᛭${w.runic}`)
                     }
                 })
@@ -93,6 +95,7 @@ function translateLatinToRunic(text, dictionary) {
     const translatedTextWithPunct = translatedText.join("")
                                                     .replaceAll(".", "᛫​")
                                                     .replaceAll(", ", "᛬​")
+                                                    .replaceAll(",", "᛬​")
                                                     .replaceAll("!?", "?᛬​")
                                                     .replaceAll("?!", "?᛬​")
                                                     .replaceAll("?", "?")
