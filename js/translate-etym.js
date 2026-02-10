@@ -92,23 +92,8 @@ function translateLatinToRunic(text, dictionary) {
             translatedText.push(word); // If word not found in dictionary, keep it as is
         }
     });
-    const translatedTextWithPunct = translatedText.join("")
-                                                    .replaceAll(".", "᛫​")
-                                                    .replaceAll(", ", "᛬​")
-                                                    .replaceAll(",", "᛬​")
-                                                    .replaceAll("!?", "?᛬​")
-                                                    .replaceAll("?!", "?᛬​")
-                                                    .replaceAll("?", "?")
-                                                    .replaceAll("; ", "⁝​")
-                                                    .replaceAll(": ", "⁝​")
-                                                    .replaceAll("—", "⁝")
-                                                    .replaceAll("-", "᛫")
-                                                    .replaceAll("! ", "᛬᛬​")
-                                                    .replaceAll("!", "᛬᛬​")
-                                                    .replaceAll(" ", "᛫​")
-                                                    .replaceAll("᛫​᛭", "᛭")
-                                                    //.replaceAll("​᛫​᛭​", "​᛭​")
-    return translatedTextWithPunct
+
+    return translatedText
 }
 
 
