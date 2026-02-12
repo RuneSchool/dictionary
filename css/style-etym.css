@@ -80,3 +80,21 @@ body {
     display: block;
     width: 200px;
 }
+
+/* Media query for mobile devices */
+@media only screen and (max-width: 600px) {
+    .translation_container {
+        width: 95%; /* Makes the boxes nearly full-width on mobile */
+        margin: 15px auto; /* Reduces side margins */
+    }
+
+    #latinInput, #etymOutput {
+        font-size: 18px; /* Slightly smaller font for better fit on small screens */
+        padding: 15px;  /* Slightly less padding to save space */
+    }
+
+    #translateButton {
+        width: 100%; /* Makes the button easy to tap on mobile */
+        padding: 15px;
+    }
+}
