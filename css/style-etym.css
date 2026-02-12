@@ -1,0 +1,82 @@
+:root {
+    color-scheme: light dark;
+}
+
+@font-face {
+    font-family: Catrinity;
+    font-weight: normal;
+    src: url("Catrinity.otf") format("opentype");
+}
+
+body {
+    font-family: Catrinity, sans-serif;
+    font-size: 20px;
+    text-align: center;
+    background: var(--background-color);
+    color: var(--color);
+    padding-bottom: 50px; /* Extra space at the bottom */
+}
+
+/* 1. Standardized Container */
+.translation_container {
+    margin: 30px auto;
+    width: 60%; /* Increased width for better text flow */
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 2. Shared styles for Input and Output for perfect length comparison */
+#latinInput, #etymOutput {
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    padding: 20px;
+    font-family: Catrinity, monospace;
+    font-size: 22px; /* Slightly larger for readability */
+    line-height: 1.5;
+    text-align: left;
+    border: 1px solid gray;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* 3. Textarea specific (Input) */
+#latinInput {
+    height: 150px;
+    resize: vertical;
+    outline: none;
+    color: inherit;
+}
+
+/* 4. Div specific (Output) */
+#etymOutput {
+    min-height: 150px;
+    white-space: pre-wrap; /* Keeps line breaks from the input */
+    word-wrap: break-word;
+    border-color: #0644D9; /* Highlight the output with your theme blue */
+}
+
+/* 5. Button styling */
+#translateButton {
+    background: #0644D9;
+    color: white;
+    font-size: 18px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px auto;
+    transition: opacity 0.2s;
+}
+
+#translateButton:hover {
+    opacity: 0.8;
+}
+
+/* Keep your existing logo and table styles below... */
+#logo {
+    margin: 40px auto;
+    display: block;
+    width: 200px;
+}
