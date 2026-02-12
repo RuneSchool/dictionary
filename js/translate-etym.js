@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             dictionary[row.latin.trim().toLowerCase()] = row.etym.trim();
                         }
                     });
+                    // NOW ENABLE THE BUTTON
+                    const btn = document.getElementById('translateButton');
+                    btn.disabled = false;
+                    btn.innerText = "Translate"; 
+
                     console.log("Dictionary ready. Loaded " + Object.keys(dictionary).length + " words.");
                 }
             });
