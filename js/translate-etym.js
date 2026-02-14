@@ -1,19 +1,26 @@
 let dictionary = {};
 
-// Helper to normalize apostrophes (converts curly to straight)
 function normalizeText(text) {
     return text.replace(/[\u2018\u2019\u201A\u201B\u2032\u2035]/g, "'");
 }
 
 function matchCasing(original, translated) {
     if (!translated) return original;
-    if (original === original.toUpperCase() && original !== original.toLowerCase()) {
+
+    // Check if original is ALL CAPS AND longer than 1 character
+    // This prevents single-letter "I" from forcing "IH"
+    if (original.length > 1 && original === original.toUpperCase() && original !== original.toLowerCase()) {
         return translated.toUpperCase();
     }
+    
+    // Check if original starts with a Capital (covers "I", "Latin", etc.)
     if (original[0] === original[0].toUpperCase()) {
+        // If the translated word from the sheet is "ih", this makes it "Ih"
         return translated.charAt(0).toUpperCase() + translated.slice(1);
     }
-    return translated.toLowerCase();
+    
+    // Return exactly what is in the spreadsheet for lowercase/standard matches
+    return translated;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -33,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 complete: (results) => {
                     results.data.forEach(row => {
                         if (row.latin && row.etym) {
-                            // Normalize the spreadsheet key too, just in case
                             const key = normalizeText(row.latin.trim().toLowerCase());
                             dictionary[key] = row.etym.trim();
                         }
@@ -46,16 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btn.addEventListener('click', () => {
         const text = input.value;
-        
-        // Regex now includes standard and curly apostrophes
         const wordRegex = /([a-zA-Z0-9'\u2018\u2019\u201A\u201B\u2032\u2035-]+)/g;
-        
         const segments = text.split(wordRegex);
         
         const translatedHTML = segments.map(segment => {
             if (!/[a-zA-Z0-9'\u2018\u2019\u201A\u201B\u2032\u2035-]/.test(segment)) return segment;
 
-            // Normalize the user's input segment before looking it up
             const normalizedSegment = normalizeText(segment.toLowerCase());
             const replacement = dictionary[normalizedSegment];
             
