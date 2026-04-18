@@ -26,8 +26,9 @@ function toAsciiOutput(text) {
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         // --- OPTIONAL ASCII FALLBACKS (easy to disable) ---
-        //.replace(/æ/g, "ae")
-        //.replace(/Æ/g, "AE")
+        .replace(/æ/g, "a")
+        .replace(/Æ/g, "a")
+        .replace(/œ/g, "o")
         // --------------------------------------------------
 }
 
@@ -105,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     asciiToggle.addEventListener('click', () => {
         asciiMode = !asciiMode;
-        asciiToggle.textContent = asciiMode ? "Turn diacritics back on" : "Turn diacritics off";
+        asciiToggle.textContent = asciiMode ? "Go back to normal" : "See ASCII";
         asciiToggle.setAttribute("aria-pressed", String(asciiMode));
 
         if (!btn.disabled) {
