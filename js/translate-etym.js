@@ -28,7 +28,8 @@ function toAsciiOutput(text) {
         // --- OPTIONAL ASCII FALLBACKS (easy to disable) ---
         .replace(/æ/g, "a")
         .replace(/Æ/g, "a")
-        .replace(/œ/g, "o")
+        .replace(/œ/g, "e")
+        .replace(/Œ/g, "E")
         // --------------------------------------------------
 }
 
