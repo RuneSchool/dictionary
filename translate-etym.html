@@ -6,53 +6,43 @@
     <title>Etymological Spelling System Translator</title>
     <meta property="og:title" content="Etymological Spelling System Translator">
     <meta property="og:site_name" content="Etymological Spelling System Translator">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" integrity="sha512-dfX5uYVXzyU8+KHqj8bjo7UkOdg18PaOtpa48djpNbZHwExddghZ+ZmzWT06R5v6NSk3ZUfsH6FNEDepLx9hPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        // If `prefers-color-scheme` is not supported, fall back to light mode.
-        // In this case, light.css will be downloaded with `highest` priority.
         if (window.matchMedia('(prefers-color-scheme: dark)').media === 'not all') {
             document.documentElement.style.display = 'none';
             document.head.insertAdjacentHTML(
-            'beforeend',
-            '<link rel="stylesheet" href="/light.css" onload="document.documentElement.style.display = \'\'">',
+                'beforeend',
+                '<link rel="stylesheet" href="/light.css" onload="document.documentElement.style.display = \'\'">'
             );
         }
     </script>
-    <!--
-        Conditionally either load the light or the dark stylesheet. The matching file
-        will be downloaded with `highest`, the non-matching file with `lowest`
-        priority. If the browser doesn't support `prefers-color-scheme`, the media
-        query is unknown and the files are downloaded with `lowest` priority (but
-        above I already force `highest` priority for my default light experience).
-    -->
+
     <link rel="stylesheet" href="css/dark.css" media="(prefers-color-scheme: dark)" />
-    <link
-        rel="stylesheet"
-        href="css/light.css"
-        media="(prefers-color-scheme: light)"
-    />
-    <!-- The main stylesheet -->
+    <link rel="stylesheet" href="css/light.css" media="(prefers-color-scheme: light)" />
     <link rel="stylesheet" href="css/style-etym.css" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css" integrity="sha512-UuQ/zJlbMVAw/UU8vVBhnI4op+/tFOpQZVT+FormmIEhRSCnJWyHiBbEVgM4Uztsht41f3FzVWgLuwzUqOObKw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/solid.min.css" integrity="sha512-Hp+WwK4QdKZk9/W0ViDvLunYjFrGJmNDt6sCflZNkjgvNq9mY+0tMbd6tWMiAlcf1OQyqL4gn2rYp7UsfssZPA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/solid.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <script src="js/translate-etym.js"></script>
+    <script src="js/translate-etym.js" defer></script>
 </head>
+
 <body>
     <h1>Etymological Spelling System Translator</h1>
-    
+
     <div class="translation_container">
         <label for="latinInput">Enter regular English text:</label>
         <textarea id="latinInput" rows="5"></textarea>
-        
-        <button id="translateButton" disabled>Loading Dictionary...</button>
-        
+
+        <div class="button_row">
+            <button id="translateButton" disabled>Loading Dictionary...</button>
+            <button id="asciiToggle" type="button" aria-pressed="false">ASCII: Off</button>
+        </div>
+
         <label>Etymological Translation:</label>
         <div id="etymOutput" class="output_box"></div>
     </div>
