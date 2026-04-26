@@ -1,8 +1,8 @@
 let dictionary = {};
-let asciiMode = false;
+let displayMode = 'default'; // 'default' | 'ascii' | 'runes'
 
 function normalizeText(text) {
-    return text.replace(/[\u2018\u2019\u201A\u201B\u2032\u2035]/g, "'");
+    return text.replace(/[‘’‚‛′‵]/g, "'");
 }
 
 function matchCasing(original, translated) {
@@ -33,14 +33,89 @@ function toAsciiOutput(text) {
         // --------------------------------------------------
 }
 
+// Runes normalizer
+// Order matters: longer / more-specific patterns must run before any shorter
+// pattern they contain (e.g. "eạ" before "ạ", "uy" before "y") or the
+// longer rule never fires. Diacritics are significant — do NOT NFD here.
+function toRunesOutput(text) {
+    return text
+        // /y/ vowel-cluster digraphs — must precede y-as-glide so they
+        // stay as ᚣ instead of decomposing.
+        .replace(/uy/gi, "ᚣ")
+        .replace(/ui/gi, "ᚣ")
+        // y as consonantal glide: any other y next to a vowel → gyfu.
+        // Lookbehind/lookahead so the adjacent vowel is preserved for the
+        // vowel rules below. Must precede vowel digraphs that would
+        // otherwise consume the adjacent vowel (e.g. "yea" → "ᚷᚫ").
+        // ᚣ is in the class because `uy`/`ui` above can leave a ᚣ behind
+        // (e.g. "buiy" → "bᚣy" → must still see ᚣ as a vowel for the y).
+        .replace(/(?<=[aąạäæeẹiịįoœuųᚣ])y|y(?=[aąạäæeẹiịįoœuųᚣ])/gi, "ᚷ")
+        // Two-character patterns — must precede their single-char components
+        .replace(/eạ/gi, "ᛠ")
+        .replace(/eo/gi, "ᛇ")
+        .replace(/ea/gi, "ᚫ")
+        .replace(/eị/gi, "ᛡ")
+        .replace(/eį/gi, "ᛁᛖ")
+        .replace(/ei/gi, "ᛁ")
+        .replace(/ee/gi, "ᛖ")
+        .replace(/œe/gi, "ᛟ")
+        .replace(/oo/gi, "ᚩ")
+        .replace(/oa/gi, "ᚪ")
+        .replace(/oą/gi, "ᚪ")
+        .replace(/ou/gi, "ᚢ")
+        .replace(/th/gi, "ᚦ")
+        .replace(/ng/gi, "ᛝ")
+        .replace(/ph/gi, "ᚠ")
+        .replace(/qu/gi, "ᚳᚹ")
+        .replace(/ch/gi, "ᚳ")
+        .replace(/sh/gi, "ᛋᚳ")
+        // Single-character patterns — vowels
+        .replace(/ạ/gi, "ᛠ")
+        .replace(/ą/gi, "ᚪ")
+        .replace(/ä/gi, "ᚪ")
+        .replace(/æ/gi, "ᚫ")
+        .replace(/a/gi, "ᚪ")
+        .replace(/ẹ/gi, "ᛇ")
+        .replace(/e/gi, "ᛖ")
+        .replace(/ị/gi, "ᛡ")
+        .replace(/į/gi, "ᛁᛖ")
+        .replace(/i/gi, "ᛁ")
+        .replace(/œ/gi, "ᛟ")
+        .replace(/o/gi, "ᚩ")
+        .replace(/u/gi, "ᚢ")
+        .replace(/ų/gi, "ᚢ")
+        .replace(/y/gi, "ᚣ")
+        // Single-character patterns — consonants (Anglo-Saxon Futhorc)
+        .replace(/b/gi, "ᛒ")
+        .replace(/c/gi, "ᛣ")
+        .replace(/d/gi, "ᛞ")
+        .replace(/f/gi, "ᚠ")
+        .replace(/g/gi, "ᚸ")
+        .replace(/h/gi, "ᚻ")
+        .replace(/j/gi, "ᚷᚳ")
+        .replace(/k/gi, "ᛣ")
+        .replace(/l/gi, "ᛚ")
+        .replace(/m/gi, "ᛗ")
+        .replace(/n/gi, "ᚾ")
+        .replace(/p/gi, "ᛈ")
+        .replace(/q/gi, "ᛢ")
+        .replace(/r/gi, "ᚱ")
+        .replace(/s/gi, "ᛋ")
+        .replace(/t/gi, "ᛏ")
+        .replace(/v/gi, "ᚠ")
+        .replace(/w/gi, "ᚹ")
+        .replace(/x/gi, "ᛉ")
+        .replace(/z/gi, "ᛋ")
+}
+
 // Strip HTML tags → convert → restore
-function applyAsciiToHTML(html) {
+function applyTransformToHTML(html, transform) {
     const temp = document.createElement("div");
     temp.innerHTML = html;
 
     function walk(node) {
         if (node.nodeType === Node.TEXT_NODE) {
-            node.nodeValue = toAsciiOutput(node.nodeValue);
+            node.nodeValue = transform(node.nodeValue);
         } else {
             node.childNodes.forEach(walk);
         }
@@ -54,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('translateButton');
     const input = document.getElementById('latinInput');
     const output = document.getElementById('etymOutput');
-    const asciiToggle = document.getElementById('asciiToggle');
+    const modeSelector = document.getElementById('displayMode');
 
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHeXINoWUcYATIgC3NFSolfN917H3VMN5t7gVti3NkB83VFK02aE1yrD4tpX33DuY0Jr4DBYXB_MPX/pub?gid=1557784562&single=true&output=tsv' + '&cachebuster=' + new Date().getTime();
 
@@ -80,11 +155,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function translate() {
         const text = input.value;
-        const wordRegex = /([a-zA-Z0-9'\u2018\u2019\u201A\u201B\u2032\u2035-]+)/g;
+        const wordRegex = /([a-zA-Z0-9'‘’‚‛′‵-]+)/g;
         const segments = text.split(wordRegex);
 
         let translatedHTML = segments.map(segment => {
-            if (!/[a-zA-Z0-9'\u2018\u2019\u201A\u201B\u2032\u2035-]/.test(segment)) return segment;
+            if (!/[a-zA-Z0-9'‘’‚‛′‵-]/.test(segment)) return segment;
 
             const normalizedSegment = normalizeText(segment.toLowerCase());
             const replacement = dictionary[normalizedSegment];
@@ -96,8 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }).join('');
 
-        if (asciiMode) {
-            translatedHTML = applyAsciiToHTML(translatedHTML);
+        if (displayMode === 'ascii') {
+            translatedHTML = applyTransformToHTML(translatedHTML, toAsciiOutput);
+        } else if (displayMode === 'runes') {
+            translatedHTML = applyTransformToHTML(translatedHTML, toRunesOutput);
         }
 
         output.innerHTML = translatedHTML;
@@ -105,10 +182,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btn.addEventListener('click', translate);
 
-    asciiToggle.addEventListener('click', () => {
-        asciiMode = !asciiMode;
-        asciiToggle.textContent = asciiMode ? "Go back to normal" : "See ASCII";
-        asciiToggle.setAttribute("aria-pressed", String(asciiMode));
+    modeSelector.addEventListener('click', (e) => {
+        const target = e.target.closest('button[data-mode]');
+        if (!target) return;
+
+        displayMode = target.dataset.mode;
+
+        modeSelector.querySelectorAll('button[data-mode]').forEach(b => {
+            b.setAttribute('aria-pressed', String(b === target));
+        });
 
         if (!btn.disabled) {
             translate();

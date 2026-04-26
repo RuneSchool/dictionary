@@ -74,6 +74,40 @@ body {
     opacity: 0.8;
 }
 
+/* Display mode segmented control */
+.mode_selector {
+    display: inline-flex;
+    gap: 0;
+    margin: 10px auto;
+}
+
+.mode_selector button {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 8px 16px;
+    border: 1px solid #0644D9;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.mode_selector button:not(:first-child) {
+    border-left: none;
+}
+
+.mode_selector button:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.mode_selector button:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.mode_selector button[aria-pressed="true"] {
+    background: #0644D9;
+    color: white;
+}
+
 /* Keep your existing logo and table styles below... */
 #logo {
     margin: 40px auto;

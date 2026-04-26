@@ -40,7 +40,11 @@
 
         <div class="button_row">
             <button id="translateButton" disabled>Loading Dictionary...</button>
-            <button id="asciiToggle" type="button" aria-pressed="false">See ASCII</button>
+            <div id="displayMode" class="mode_selector" role="group" aria-label="Display mode">
+                <button type="button" data-mode="default" aria-pressed="true">Default</button>
+                <button type="button" data-mode="ascii" aria-pressed="false">ASCII</button>
+                <button type="button" data-mode="runes" aria-pressed="false">Runes</button>
+            </div>
         </div>
 
         <label>Etymological Translation:</label>
