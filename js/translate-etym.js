@@ -69,6 +69,10 @@ function toRunesOutput(text) {
         .replace(/qu/gi, "ᚳᚹ")
         .replace(/ch/gi, "ᚳ")
         .replace(/sh/gi, "ᛋᚳ")
+        .replace(/bh/gi, "ᛒ")
+        .replace(/dh/gi, "ᛞ")
+        // favor ᚳ when we can
+        .replace(/c(?=[nwl])/gi, "ᚳ")
         // Single-character patterns — vowels
         .replace(/ạ/gi, "ᛠ")
         .replace(/ą/gi, "ᚪ")
@@ -106,6 +110,8 @@ function toRunesOutput(text) {
         .replace(/w/gi, "ᚹ")
         .replace(/x/gi, "ᛉ")
         .replace(/z/gi, "ᛋ")
+        .replace(/’/gi, "")
+        .replace(/·/gi, "")
 }
 
 // Strip HTML tags → convert → restore
