@@ -71,6 +71,7 @@ function toRunesOutput(text) {
         .replace(/sh/gi, "ᛋᚳ")
         .replace(/bh/gi, "ᛒ")
         .replace(/dh/gi, "ᛞ")
+        .replace(/gh/gi, "ᚷ")
         // favor ᚳ when we can
         .replace(/c(?=[nwl])/gi, "ᚳ")
         // Single-character patterns — vowels
@@ -110,9 +111,20 @@ function toRunesOutput(text) {
         .replace(/w/gi, "ᚹ")
         .replace(/x/gi, "ᛉ")
         .replace(/z/gi, "ᛋ")
-        .replace(/’/gi, "")
-        .replace(/·/gi, "")
+        //
+        // punctuation
+        //
+        // .replace(/’/gi, "")
+        // .replace(/·/gi, "")
+        // .replace(/,/gi, "᛬")
+        .replace(/\s/gi, " ")
+        // .replace(/\./gi, "᛫")
+        // .replace(/;/gi, "⁝")
+        // .replace(/\?/gi, "?")
+        // .replace(/\!/gi, "᛬᛬")
 }
+
+var enspace = " ";
 
 // Strip HTML tags → convert → restore
 function applyTransformToHTML(html, transform) {
