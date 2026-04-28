@@ -116,14 +116,14 @@ function toRunesOutput(text) {
         //
         // punctuation
         //
-        .replace(/’/gi, "")
-        .replace(/·/gi, "")
-        .replace(/,/gi, "᛬")
-        .replace(/\h/gi, "᛫")
-        .replace(/\./gi, "᛫")
-        .replace(/;/gi, "⁝")
-        .replace(/\?/gi, "?")
-        .replace(/\!/gi, "᛬᛬")
+        .replace(/’/gi, "᛫")
+        .replace(/·/gi, "᛬")
+        // .replace(/,/gi, "᛬")
+        .replace(/[ ]/gi, enspace)
+        // .replace(/\./gi, "᛫")
+        // .replace(/;/gi, "⁝")
+        // .replace(/\?/gi, "?")
+        // .replace(/\!/gi, "᛬᛬")
 }
 
 
