@@ -119,7 +119,7 @@ function toRunesOutput(text) {
         .replace(/’/gi, "")
         .replace(/·/gi, "")
         .replace(/,/gi, "᛬")
-        .replace(/\s/gi, "᛫")
+        .replace(/\h/gi, "᛫")
         .replace(/\./gi, "᛫")
         .replace(/;/gi, "⁝")
         .replace(/\?/gi, "?")
