@@ -38,6 +38,8 @@ function toAsciiOutput(text) {
 // pattern they contain (e.g. "eạ" before "ạ", "uy" before "y") or the
 // longer rule never fires. Diacritics are significant — do NOT NFD here.
 function toRunesOutput(text) {
+    var regspace = " ";
+    var enspace = " ";
     return text
         // /y/ vowel-cluster digraphs — must precede y-as-glide so they
         // stay as ᚣ instead of decomposing.
@@ -114,17 +116,17 @@ function toRunesOutput(text) {
         //
         // punctuation
         //
-        // .replace(/’/gi, "")
-        // .replace(/·/gi, "")
-        // .replace(/,/gi, "᛬")
-        .replace(/\s/gi, " ")
-        // .replace(/\./gi, "᛫")
-        // .replace(/;/gi, "⁝")
-        // .replace(/\?/gi, "?")
-        // .replace(/\!/gi, "᛬᛬")
+        .replace(/’/gi, "")
+        .replace(/·/gi, "")
+        .replace(/,/gi, "᛬")
+        .replace(/\s/gi, "᛫")
+        .replace(/\./gi, "᛫")
+        .replace(/;/gi, "⁝")
+        .replace(/\?/gi, "?")
+        .replace(/\!/gi, "᛬᛬")
 }
 
-var enspace = " ";
+
 
 // Strip HTML tags → convert → restore
 function applyTransformToHTML(html, transform) {
