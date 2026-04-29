@@ -79,6 +79,7 @@ function toRunesOutput(text) {
         .replace(/bh/gi, "ᛒ")
         .replace(/dh/gi, "ᛞ")
         .replace(/gh/gi, "ᚷ")
+        .replace(/ge\b/gi, "ᚳᚷ")
         // favor ᚳ when we can
         .replace(/c(?=[nwl])/gi, "ᚳ")
         // Single-character patterns — vowels
@@ -104,7 +105,7 @@ function toRunesOutput(text) {
         .replace(/f/gi, "ᚠ")
         .replace(/g/gi, "ᚸ")
         .replace(/h/gi, "ᚻ")
-        .replace(/j/gi, "ᚷᚳ")
+        .replace(/j/gi, "ᚳᚷ")
         .replace(/k/gi, "ᛣ")
         .replace(/l/gi, "ᛚ")
         .replace(/m/gi, "ᛗ")
