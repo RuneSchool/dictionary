@@ -1,5 +1,10 @@
 let dictionary = {};
-let displayMode = 'default'; // 'default' | 'ascii' | 'runes'
+let displayMode = 'default'; // 'default' | 'ascii' | 'runes' | 'blended'
+
+// Native affixes (etym spelling). In blended mode these are always runes,
+// regardless of whether the root is native. Edit freely.
+const NATIVE_PREFIXES = ['ųn', 'ye', 'be', 'ąn’', 'o’', 'on', 'oa', 'for', 'fore', 'mis', 'out', 'ofer', 'ųnder', 'ųp', 'with'];
+const NATIVE_SUFFIXES = ['ing', 'doom', 'd',  'ed', 'er', 'est', 'st', 'nes', 'hoad', 'leach', 'leạs', 'loac', 'shįp', 'lei’', 'ful', 'sųm', 'wạrd', 'weis', 'iy', 'ol', 'el', 'ling'];
 
 function normalizeText(text) {
     return text.replace(/[‘’‚‛′‵]/g, "'");
@@ -145,6 +150,64 @@ function applyTransformToHTML(html, transform) {
     return temp.innerHTML;
 }
 
+// Blended: per-word, runes-translate native affixes (always) and the root (only
+// if source === 'native'). The `·` between segments takes the rune form `᛬` if
+// either neighboring segment was runes-translated.
+function blendedTranslateWord(etymWord, source) {
+    if (!etymWord.includes('·')) {
+        return source === 'native' ? toRunesOutput(etymWord) : etymWord.replace(/’/g, '᛫');
+    }
+
+    const segments = etymWord.split('·');
+    const lastIdx = segments.length - 1;
+    const isNativeRoot = source === 'native';
+
+    const info = segments.map((seg, i) => {
+        const lower = seg.toLowerCase();
+        let isRunes;
+        if (i === 0 && NATIVE_PREFIXES.includes(lower)) {
+            isRunes = true;
+        } else if (i === lastIdx && i !== 0 && NATIVE_SUFFIXES.includes(lower)) {
+            isRunes = true;
+        } else {
+            isRunes = isNativeRoot;
+        }
+        return { text: seg, isRunes };
+    });
+
+    let result = '';
+    info.forEach((piece, i) => {
+        if (i > 0) {
+            result += '᛬';
+        }
+        result += piece.isRunes ? toRunesOutput(piece.text) : piece.text.replace(/’/g, '᛫');
+    });
+    return result;
+}
+
+function applyBlendedTransform(html) {
+    const temp = document.createElement("div");
+    temp.innerHTML = html;
+
+    temp.querySelectorAll('[data-source]').forEach(span => {
+        const source = span.getAttribute('data-source');
+        span.textContent = blendedTranslateWord(span.textContent, source);
+    });
+
+    // Final pass: regular space → en-space (U+2002) so the line breathes more.
+    // Newlines untouched.
+    function spaceWalk(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            node.nodeValue = node.nodeValue.replace(/ /g, ' ');
+        } else {
+            node.childNodes.forEach(spaceWalk);
+        }
+    }
+    spaceWalk(temp);
+
+    return temp.innerHTML;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('translateButton');
     const input = document.getElementById('latinInput');
@@ -164,7 +227,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     results.data.forEach(row => {
                         if (row.latin && row.etym) {
                             const key = normalizeText(row.latin.trim().toLowerCase());
-                            dictionary[key] = row.etym.trim();
+                            dictionary[key] = {
+                                etym: row.etym.trim(),
+                                source: row.source ? row.source.trim().toLowerCase() : ''
+                            };
                         }
                     });
                     btn.disabled = false;
@@ -182,10 +248,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!/[a-zA-Z0-9'‘’‚‛′‵-]/.test(segment)) return segment;
 
             const normalizedSegment = normalizeText(segment.toLowerCase());
-            const replacement = dictionary[normalizedSegment];
+            const entry = dictionary[normalizedSegment];
 
-            if (replacement) {
-                return matchCasing(segment, replacement);
+            if (entry) {
+                const cased = matchCasing(segment, entry.etym);
+                if (displayMode === 'blended') {
+                    return `<span data-source="${entry.source || ''}">${cased}</span>`;
+                }
+                return cased;
             } else {
                 return `<mark>${segment}</mark>`;
             }
@@ -195,6 +265,8 @@ document.addEventListener('DOMContentLoaded', () => {
             translatedHTML = applyTransformToHTML(translatedHTML, toAsciiOutput);
         } else if (displayMode === 'runes') {
             translatedHTML = applyTransformToHTML(translatedHTML, toRunesOutput);
+        } else if (displayMode === 'blended') {
+            translatedHTML = applyBlendedTransform(translatedHTML);
         }
 
         output.innerHTML = translatedHTML;
