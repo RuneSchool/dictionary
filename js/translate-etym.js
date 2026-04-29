@@ -4,7 +4,7 @@ let displayMode = 'default'; // 'default' | 'ascii' | 'runes' | 'blended'
 // Native affixes (etym spelling). In blended mode these are always runes,
 // regardless of whether the root is native. Edit freely.
 const NATIVE_PREFIXES = ['ųn', 'ye', 'be', 'ąn’', 'o’', 'on', 'oa', 'for', 'fore', 'mis', 'out', 'ofer', 'ųnder', 'ųp', 'with'];
-const NATIVE_SUFFIXES = ['ing', 'doom', 'd',  'ed', 'er', 'est', 'st', 'nes', 'hoad', 'leach', 'leạs', 'loac', 'shįp', 'lei’', 'ful', 'sųm', 'wạrd', 'weis', 'iy', 'ol', 'el', 'ling'];
+const NATIVE_SUFFIXES = ['s', 'es', 't', 'th', 'ing', 'doom', 'd',  'ed', 'er', 'est', 'st', 'nes', 'hoad', 'leach', 'leạs', 'loac', 'shįp', 'lei’', 'ful', 'sųm', 'wạrd', 'weis', 'iy', 'ol', 'el', 'ling'];
 
 function normalizeText(text) {
     return text.replace(/[‘’‚‛′‵]/g, "'");
