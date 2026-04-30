@@ -122,8 +122,8 @@ function toRunesOutput(text) {
         //
         // punctuation
         //
-        .replace(/’/gi, "᛫")
-        .replace(/·/gi, "᛬")
+        // .replace(/’/gi, "᛫")
+        // .replace(/·/gi, "᛬")
         // .replace(/,/gi, "᛬")
         .replace(/[ ]/gi, enspace)
         // .replace(/\./gi, "᛫")
@@ -156,7 +156,9 @@ function applyTransformToHTML(html, transform) {
 // either neighboring segment was runes-translated.
 function blendedTranslateWord(etymWord, source) {
     if (!etymWord.includes('·')) {
-        return source === 'native' ? toRunesOutput(etymWord) : etymWord.replace(/’/g, '᛫');
+        if (source === 'native') {
+            return toRunesOutput(etymWord);
+        }
     }
 
     const segments = etymWord.split('·');
@@ -179,9 +181,12 @@ function blendedTranslateWord(etymWord, source) {
     let result = '';
     info.forEach((piece, i) => {
         if (i > 0) {
-            result += '᛬';
+            result += '·';
         }
-        result += piece.isRunes ? toRunesOutput(piece.text) : piece.text.replace(/’/g, '᛫');
+            // Only add to result if isRunes is true
+        if (piece.isRunes) {
+            result += toRunesOutput(piece.text);
+        }
     });
     return result;
 }
