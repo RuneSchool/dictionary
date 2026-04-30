@@ -1,6 +1,15 @@
 let dictionary = {};
 let displayMode = 'default'; // 'default' | 'ascii' | 'runes' | 'blended'
 
+// Sources treated as native (rune-converted) in blended mode.
+const RUNE_SOURCES = new Set(['native', 'norse', 'celtic']);
+
+function isRuneSource(source) {
+    if (!source) return false;
+    const lower = source.toLowerCase();
+    return [...RUNE_SOURCES].some(s => lower.includes(s));
+}
+
 // Native affixes (etym spelling). In blended mode these are always runes,
 // regardless of whether the root is native. Edit freely.
 const NATIVE_PREFIXES = ['ųn', 'ye', 'be', 'ąn’', 'o’', 'on', 'oa', 'for', 'fore', 'mis', 'out', 'ofer', 'ųnder', 'ųp', 'with'];
@@ -152,18 +161,15 @@ function applyTransformToHTML(html, transform) {
 }
 
 // Blended: per-word, runes-translate native affixes (always) and the root (only
-// if source === 'native'). The `·` between segments takes the rune form `᛬` if
-// either neighboring segment was runes-translated.
+// if source === 'native').
 function blendedTranslateWord(etymWord, source) {
     if (!etymWord.includes('·')) {
-        if (source === 'native') {
-            return toRunesOutput(etymWord);
-        }
+        return isRuneSource(source) ? toRunesOutput(etymWord) : etymWord;
     }
 
     const segments = etymWord.split('·');
     const lastIdx = segments.length - 1;
-    const isNativeRoot = source === 'native';
+    const isNativeRoot = isRuneSource(source);
 
     const info = segments.map((seg, i) => {
         const lower = seg.toLowerCase();
@@ -183,9 +189,10 @@ function blendedTranslateWord(etymWord, source) {
         if (i > 0) {
             result += '·';
         }
-            // Only add to result if isRunes is true
         if (piece.isRunes) {
             result += toRunesOutput(piece.text);
+        } else {
+            result += piece.text;
         }
     });
     return result;
