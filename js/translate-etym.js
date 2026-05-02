@@ -171,18 +171,25 @@ function blendedTranslateWord(etymWord, source) {
     const lastIdx = segments.length - 1;
     const isNativeRoot = isRuneSource(source);
 
-    const info = segments.map((seg, i) => {
-        const lower = seg.toLowerCase();
-        let isRunes;
-        if (i === 0 && NATIVE_PREFIXES.includes(lower)) {
-            isRunes = true;
-        } else if (i === lastIdx && i !== 0 && NATIVE_SUFFIXES.includes(lower)) {
-            isRunes = true;
+    const info = segments.map(seg => ({ text: seg, isRunes: isNativeRoot }));
+
+    // Mark trailing native suffixes (consecutive, walking inward from the end).
+    for (let i = lastIdx; i > 0; i--) {
+        if (NATIVE_SUFFIXES.includes(info[i].text.toLowerCase())) {
+            info[i].isRunes = true;
         } else {
-            isRunes = isNativeRoot;
+            break;
         }
-        return { text: seg, isRunes };
-    });
+    }
+
+    // Mark leading native prefixes (consecutive, walking outward from the start).
+    for (let i = 0; i < lastIdx; i++) {
+        if (NATIVE_PREFIXES.includes(info[i].text.toLowerCase())) {
+            info[i].isRunes = true;
+        } else {
+            break;
+        }
+    }
 
     let result = '';
     info.forEach((piece, i) => {
