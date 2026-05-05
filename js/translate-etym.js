@@ -13,7 +13,7 @@ function isRuneSource(source) {
 // Native affixes (etym spelling). In blended mode these are always runes,
 // regardless of whether the root is native. Edit freely.
 const NATIVE_PREFIXES = ['ųn', 'ye', 'be', 'ąn’', 'o’', 'on', 'oa', 'for', 'fore', 'mis', 'out', 'ofer', 'ųnder', 'ųp', 'with'];
-const NATIVE_SUFFIXES = ['n', 'en', 's', 'es', 't', 'th', 'ing', 'doom', 'd',  'ed', 'er', 'est', 'st', 'nes', 'hoad', 'leach', 'leạs', 'loac', 'shįp', 'lei’', 'ful', 'sųm', 'wạrd', 'weis', 'iy', 'ol', 'el', 'ling'];
+const NATIVE_SUFFIXES = ['n', 'ish', 'en', 's', 'es', 't', 'th', 'ing', 'doom', 'd',  'ed', 'er', 'est', 'st', 'nes', 'hoad', 'leach', 'leạs', 'loac', 'shįp', 'lei’', 'ful', 'sųm', 'wạrd', 'weis', 'iy', 'ol', 'el', 'ling'];
 
 function normalizeText(text) {
     return text.replace(/[‘’‚‛′‵]/g, "'");
@@ -66,6 +66,8 @@ function toRunesOutput(text) {
         // ᚣ is in the class because `uy`/`ui` above can leave a ᚣ behind
         // (e.g. "buiy" → "bᚣy" → must still see ᚣ as a vowel for the y).
         .replace(/(?<=[aąạäæeẹiịįoœuųᚣ])y|y(?=[aąạäæeẹiịįoœuųᚣ])/gi, "ᚷ")
+        // S was added later onto heo. So keep H here.
+        .replace(/sheo/gi, "ᛋᚻᛇ")
         // Two-character patterns — must precede their single-char components
         .replace(/eạ/gi, "ᛠ")
         .replace(/eo/gi, "ᛇ")
