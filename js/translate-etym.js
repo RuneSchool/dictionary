@@ -2,7 +2,7 @@ let dictionary = {};
 let displayMode = 'default'; // 'default' | 'ascii' | 'runes' | 'blended'
 
 // Sources treated as native (rune-converted) in blended mode.
-const RUNE_SOURCES = new Set(['native', 'norse', 'celtic']);
+const RUNE_SOURCES = new Set(['native', 'norse', 'celtic', 'dutch']);
 
 function isRuneSource(source) {
     if (!source) return false;
@@ -68,6 +68,9 @@ function toRunesOutput(text) {
         .replace(/(?<=[aąạäæeẹiịįoœuųᚣ])y|y(?=[aąạäæeẹiịįoœuųᚣ])/gi, "ᚷ")
         // S was added later onto heo. So keep H here.
         .replace(/sheo/gi, "ᛋᚻᛇ")
+        // Three-character patterns
+        .replace(/cch/gi, "ᚳᚳ")
+        .replace(/tth/gi, "ᚦᚦ")
         // Two-character patterns — must precede their single-char components
         .replace(/eạ/gi, "ᛠ")
         .replace(/eo/gi, "ᛇ")
